@@ -1,136 +1,46 @@
 {
     "openapi":"3.0.2",
     "info": {
-      "title":"User API",
+      "title":"Address API",
       "version":"1.0"
     },
     "servers": [
       {"url":"http://localhost:8000"}
     ],
     "paths": {
-        "/api/users":{
+        "/api/contacts/{idContact}/addresses":{
             "post":{
-                "description": "Register new user",
-                "requestBody":{
-                    "content": {
-                        "application/json":{
-                            "examples": {
-                                "omi":{
-                                    "description": "Register user omi",
-                                    "value": {
-                                        "username": "omi",
-                                        "password": "rahasia",
-                                        "name": "omi"
-                                    }
-                                }
-                            },
-                            "schema":{
-                                "type": "object",
-                                "required": [
-                                    "name",
-                                    "username",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "username":{
-                                        "type": "string"
-                                    },
-                                    "password":{
-                                        "type": "string"
-                                    },
-                                    "name":{
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "400":{
-                        "description": "Validation error",
-                        "content": {
-                            "application/json":{
-                                "examples": {
-                                    "validationerror":{
-                                        "description": "Validation error",
-                                        "value":{
-                                            "errors":{
-                                                "username": [
-                                                    "Username musn't be blank",
-                                                    "Username min 6 characters"
-                                                ],
-                                                "name": [
-                                                    "Name mus't be blank"
-                                                ],
-                                                "password": [
-                                                    "Password musn't be blank",
-                                                    "Password min 8 characters"
-                                                ]
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                "description": "Create new address",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
                     },
-                    "201":{
-                        "description": "Success register user",
-                        "content": {
-                            "application/json":{
-                                "examples": {
-                                    "success":{
-                                        "description": "Success register user",
-                                        "value": {
-                                            "data": {
-                                                "id": 1,
-                                                "name": "omi",
-                                                "username": "omi"
-                                            }
-                                        }
-                                    }
-                                },
-                                "schema":{
-                                    "type": "object",
-                                    "properties": {
-                                        "data":{
-                                            "type": "object",
-                                            "properties": {
-                                                "id":{
-                                                    "type": "number"
-                                                },
-                                                "username":{
-                                                    "type": "string"
-                                                },
-                                                "name":{
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors":{
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    {
+                        "name": "idContact",
+                        "in": "path"
                     }
-                }
-            }
-        },
-        "/api/users/login":{
-            "post":{
-                "description": "Login user",
+                ],
                 "requestBody":{
+                    "description": "Create new address",
                     "content": {
                         "application/json":{
                             "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "username":{
+                                    "street":{
                                         "type": "string"
                                     },
-                                    "password":{
+                                    "city":{
+                                        "type": "string"
+                                    },
+                                    "province":{
+                                        "type": "string"
+                                    },
+                                    "country":{
+                                        "type": "string"
+                                    },
+                                    "postal_code":{
                                         "type": "string"
                                     }
                                 }
@@ -139,8 +49,8 @@
                     }
                 },
                 "responses": {
-                    "200":{
-                        "description": "Success login",
+                    "201":{
+                        "description": "Success create address",
                         "content": {
                             "application/json":{
                                 "schema":{
@@ -152,53 +62,19 @@
                                                 "id":{
                                                     "type": "number"
                                                 },
-                                                "username":{
+                                                "street":{
                                                     "type": "string"
                                                 },
-                                                "name":{
+                                                "city":{
                                                     "type": "string"
                                                 },
-                                                "token":{
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors":{
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/users/current":{
-            "get":{
-                "description": "Get current user",
-                "parameters": [{
-                    "name": "Authorization",
-                    "in": "header"
-                }],
-                "responses": {
-                    "200":{
-                        "description": "Success get current user",
-                        "content": {
-                            "application/json":{
-                                "schema":{
-                                    "type": "object",
-                                    "properties": {
-                                        "data":{
-                                            "type": "object",
-                                            "properties": {
-                                                "id":{
-                                                    "type": "number"
-                                                },
-                                                "username":{
+                                                "province":{
                                                     "type": "string"
                                                 },
-                                                "name":{
+                                                "country":{
+                                                    "type": "string"
+                                                },
+                                                "postal_code":{
                                                     "type": "string"
                                                 }
                                             }
@@ -213,49 +89,39 @@
                     }
                 }
             },
-            "patch":{
-                "description": "Update current user",
-                "parameters": [{
-                    "name": "Authorization",
-                    "in": "header"
-                }],
-                "requestBody":{
-                    "description": "Update current user",
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "name":{
-                                        "type": "string"
-                                    },
-                                    "password":{
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+            "get":{
+                "description": "Get list addresses",
                 "responses": {
                     "200":{
-                        "description": "Success update user",
+                        "description": "List addresses",
                         "content": {
                             "application/json":{
                                 "schema":{
                                     "type": "object",
                                     "properties": {
                                         "data":{
-                                            "type": "object",
-                                            "properties": {
-                                                "id":{
-                                                    "type": "number"
-                                                },
-                                                "username":{
-                                                    "type": "string"
-                                                },
-                                                "name":{
-                                                    "type": "string"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id":{
+                                                        "type": "number"
+                                                    },
+                                                    "street":{
+                                                        "type": "string"
+                                                    },
+                                                    "city":{
+                                                        "type": "string"
+                                                    },
+                                                    "province":{
+                                                        "type": "string"
+                                                    },
+                                                    "country":{
+                                                        "type": "string"
+                                                    },
+                                                    "postal_code":{
+                                                        "type": "string"
+                                                    }
                                                 }
                                             }
                                         },
@@ -270,16 +136,167 @@
                 }
             }
         },
-        "/api/users/logout":{
-            "delete":{
-                "description": "Logout current user",
-                "parameters": [{
-                    "name": "Authorization",
-                    "in": "header"
-                }],
+        "/api/contacts/{idContact}/addresses/{idAddress}":{
+            "get":{
+                "description": "Get address",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path"
+                    }
+                ],
                 "responses": {
                     "200":{
-                        "description": "Success update user",
+                        "description": "Success get address",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data":{
+                                            "type": "object",
+                                            "properties": {
+                                                "id":{
+                                                    "type": "number"
+                                                },
+                                                "street":{
+                                                    "type": "string"
+                                                },
+                                                "city":{
+                                                    "type": "string"
+                                                },
+                                                "province":{
+                                                    "type": "string"
+                                                },
+                                                "country":{
+                                                    "type": "string"
+                                                },
+                                                "postal_code":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors":{
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "description": "Update address",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "description": "Update existing contact address",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "street":{
+                                        "type": "string"
+                                    },
+                                    "city":{
+                                        "type": "string"
+                                    },
+                                    "province":{
+                                        "type": "string"
+                                    },
+                                    "country":{
+                                        "type": "string"
+                                    },
+                                    "postal_code":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success create address",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "data":{
+                                            "type": "object",
+                                            "properties": {
+                                                "id":{
+                                                    "type": "number"
+                                                },
+                                                "street":{
+                                                    "type": "string"
+                                                },
+                                                "city":{
+                                                    "type": "string"
+                                                },
+                                                "province":{
+                                                    "type": "string"
+                                                },
+                                                "country":{
+                                                    "type": "string"
+                                                },
+                                                "postal_code":{
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors":{
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "description": "Delete address",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "idContact",
+                        "in": "path"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success create address",
                         "content": {
                             "application/json":{
                                 "schema":{
@@ -297,7 +314,6 @@
                         }
                     }
                 }
-                
             }
         }
     }
